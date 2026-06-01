@@ -55,7 +55,7 @@ check_boot_mode:
     mov si, boot_param
     mov di, gui_str
     call strcmp
-    jc .set_gui
+    jnc .set_gui
     jmp .done
 .set_gui:
     mov byte [switch_to_gui], 1
@@ -68,7 +68,9 @@ check_boot_mode:
 %include "kernel/commands.asm"
 %include "kernel/idt.asm"
 %include "kernel/keyboard.asm"
-%include "kernel/string.asm"
+
+%include "lib/string.asm"
+%include "lib/math.asm"
 
 %include "drivers/vga.asm"
 %include "drivers/mouse.asm"
