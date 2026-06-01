@@ -4,26 +4,47 @@ strlen:
     push bx
     mov bx, si
     xor ax, ax
-.strlen_loop:
+.loop:
     cmp byte [si], 0
     je .done
     inc si
     inc ax
-    jmp .strlen_loop
+    jmp .loop
 .done:
     mov si, bx
     pop bx
     ret
 
+strcmp:
+    pusha
+.loop:
+    mov al, [si]
+    mov bl, [di]
+    cmp al, bl
+    jne .not_equal
+    test al, al
+    jz .equal
+    inc si
+    inc di
+    jmp .loop
+.equal:
+    popa
+    clc
+    ret
+.not_equal:
+    popa
+    stc
+    ret
+
 strcpy:
     pusha
-.strcpy_loop:
+.loop:
     mov al, [si]
     mov [di], al
     inc si
     inc di
     test al, al
-    jnz .strcpy_loop
+    jnz .loop
     popa
     ret
 
@@ -35,37 +56,16 @@ strcat:
     popa
     ret
 
-strcmp:
-    pusha
-.strcmp_loop:
-    mov al, [si]
-    mov bl, [di]
-    cmp al, bl
-    jne .not_equal
-    test al, al
-    jz .equal
-    inc si
-    inc di
-    jmp .strcmp_loop
-.equal:
-    popa
-    xor ax, ax
-    ret
-.not_equal:
-    popa
-    mov ax, 1
-    ret
-
 strchr:
     pusha
-.strchr_loop:
+.loop:
     mov al, [si]
     test al, al
     jz .not_found
     cmp al, cl
     je .found
     inc si
-    jmp .strchr_loop
+    jmp .loop
 .found:
     mov ax, si
     popa
@@ -77,7 +77,7 @@ strchr:
 
 strtolower:
     pusha
-.strtolower_loop:
+.loop:
     mov al, [si]
     test al, al
     jz .done
@@ -89,14 +89,14 @@ strtolower:
     mov [si], al
 .next:
     inc si
-    jmp .strtolower_loop
+    jmp .loop
 .done:
     popa
     ret
 
 strtoupper:
     pusha
-.strtoupper_loop:
+.loop:
     mov al, [si]
     test al, al
     jz .done
@@ -108,7 +108,7 @@ strtoupper:
     mov [si], al
 .next:
     inc si
-    jmp .strtoupper_loop
+    jmp .loop
 .done:
     popa
     ret
