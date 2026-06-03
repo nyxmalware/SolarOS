@@ -8,7 +8,6 @@ crate-type = ["staticlib"]
 name = "solaros_rust"
 
 [dependencies]
-spin = "0.9.8"
 
 [profile.release]
 panic = "abort"
