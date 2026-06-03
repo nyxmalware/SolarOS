@@ -4,7 +4,6 @@ LD = ld
 QEMU = qemu-system-x86_64
 IMG = solaros.img
 
-ASM_FILES = boot.asm initrix.asm kernel.asm
 ASM_OBJS = boot.o initrix.o kernel.o
 
 all: build_asm build_rust link build_img
@@ -24,7 +23,7 @@ build_img:
 	objcopy -O binary solaros.bin $(IMG)
 
 clean:
-	rm -f *.o *.bin $(IMG)
+	rm -f *.o *.bin *.img
 	cd rust && $(RUSTC) clean
 
 run:
