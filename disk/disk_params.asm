@@ -1,12 +1,16 @@
 disk_params:
-    push ax es
+    push ax
     push es
+
     mov ah, 0x08
     int 0x13
     jc read_error
+
     pop es
+
     and cl, 0x3F
     xor ch, ch
     inc dh
-    pop es ax
+
+    pop ax
     ret
