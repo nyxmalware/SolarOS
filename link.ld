@@ -1,25 +1,26 @@
-ENTRY(_start);
+ENTRY(_start)
 
 SECTIONS {
-    . = 0x2000;
-
+    . = 0x1000;
+    
     .text : {
-        *(.text);
+        *(.text*);
     }
-
+    
     .rodata : {
-        *(.rodata);
+        *(.rodata*);
     }
-
+    
     .data : {
-        *(.data);
+        *(.data*);
     }
-
+    
     .bss : {
-        *(.bss);
+        *(.bss*);
     }
-
-    .stack : {
-        *(.stack);
+    
+    /DISCARD/ : {
+        *(.eh_frame);
+        *(.comment);
     }
 }
