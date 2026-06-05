@@ -1,4 +1,5 @@
-; SolarOS FAT12 driver
+; disk/fat12.asm - исправлен
+extern error_handler
 
 load_file:
     push ax
@@ -108,7 +109,7 @@ read_root_dir:
     push word [heads]
     call disk_read
 
-    mov bx, 0
+    xor bx, bx
     mov di, 0x7E00
 .search:
     mov si, [filename_ptr]
@@ -122,7 +123,7 @@ read_root_dir:
     cmp bx, [dir_entries]
     jl .search
     mov si, err_file_not_found
-    jmp error_handler
+    call error_handler
 .found:
     mov ax, [di + 26]
     mov [first_cluster], ax
